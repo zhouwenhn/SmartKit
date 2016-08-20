@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kit.cn.smartkit">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.kit.cn.smartkit.download_sample.DownloadManagerActivity"/>
+        <activity android:name=".download_sample.DesActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.MethodActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.CustomRequestActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.BitmapRequestActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.PostTextActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.FormUploadActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.FileDownloadActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.CacheActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.HttpsActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.SyncActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.RedirectActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.TestActivity"/>
+        <activity android:name="com.kit.cn.smartkit.network_sample.activity.OkhttpMainActivity"/>
+
+    </application>
+
+</manifest>
