@@ -44,7 +44,7 @@ public class OkhttpMainActivity extends AppCompatActivity {
 
     private class MyAdapter extends FragmentPagerAdapter {
 
-        private String[] titles = {"一般请求", "下载管理", "上传管理"};
+        private String[] titles = {"一般请求", "上传管理"};
 
         public MyAdapter(FragmentManager fm) {
             super(fm);

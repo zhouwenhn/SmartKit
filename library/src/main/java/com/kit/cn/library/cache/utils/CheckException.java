@@ -1,7 +1,6 @@
 package com.kit.cn.library.cache.utils;
 
-
-import android.util.Log;
+import com.kit.cn.library.utils.log.Logger;
 
 /**
  * @author zhouwen
@@ -18,7 +17,7 @@ public class CheckException {
      */
     public static void checkNPE(Object params) {
         if (params == null) {
-            Log.e(TAG, "params can not null");
+            Logger.e(TAG, "params can not null");
             throw new NullPointerException("params is not be null");
         }
     }

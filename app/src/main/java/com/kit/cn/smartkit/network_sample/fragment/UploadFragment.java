@@ -16,13 +16,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kit.cn.library.download.download.DownloadManager;
-import com.kit.cn.library.download.listener.UploadListener;
-import com.kit.cn.library.download.task.ExecutorWithListener;
-import com.kit.cn.library.download.upload.UploadInfo;
-import com.kit.cn.library.download.upload.UploadManager;
+import com.kit.cn.downloadlib.download.download.DownloadManager;
+import com.kit.cn.downloadlib.download.listener.UploadListener;
+import com.kit.cn.downloadlib.download.task.ExecutorWithListener;
+import com.kit.cn.downloadlib.download.upload.UploadInfo;
+import com.kit.cn.downloadlib.download.upload.UploadManager;
 import com.kit.cn.library.network.OkHttpTask;
 import com.kit.cn.library.network.request.PostRequest;
+import com.kit.cn.library.pagekit.FragmentWrapper;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.network_sample.ui.ProgressPieView;
 import com.kit.cn.smartkit.network_sample.utils.GlideImageLoader;
@@ -41,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Response;
 
-public class UploadFragment extends Fragment implements ExecutorWithListener.OnAllTaskEndListener {
+public class UploadFragment extends FragmentWrapper implements ExecutorWithListener.OnAllTaskEndListener {
 
     @Bind(R.id.gridView) GridView gridView;
     @Bind(R.id.tvCorePoolSize) TextView tvCorePoolSize;

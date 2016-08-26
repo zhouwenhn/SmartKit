@@ -1,6 +1,5 @@
 package com.kit.cn.library.cache.config;
 
-
 import com.kit.cn.library.LibApplication;
 
 import java.io.File;
@@ -19,5 +18,5 @@ public interface CacheConfig {
 
     String CACHE_PATH = LibApplication.getInstance().getFilesDir().getAbsolutePath() + File.separator + FILE_NAME;
 
-    String CACHE_KEY = "cache";
+//    String CACHE_KEY = userId + "cache";
 }

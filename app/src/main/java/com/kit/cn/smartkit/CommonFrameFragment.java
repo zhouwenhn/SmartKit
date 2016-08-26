@@ -1,11 +1,16 @@
 package com.kit.cn.smartkit;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.kit.cn.library.ioc.annotations.field.InjectChildView;
 import com.kit.cn.library.ioc.annotations.field.InjectContentView;
+import com.kit.cn.library.pagekit.FragmentWrapper;
 import com.kit.cn.library.widget.toast.ToastUtil;
 import com.kit.cn.smartkit.base.BaseFragment;
 
@@ -15,8 +20,8 @@ import com.kit.cn.smartkit.base.BaseFragment;
  * @since 16/7/23
  */
 
-@InjectContentView(value = R.layout.common_frame_fragment)
-public class CommonFrameFragment extends BaseFragment {
+//@InjectContentView(value = R.layout.common_frame_fragment)
+public class CommonFrameFragment extends FragmentWrapper implements View.OnClickListener {
 
     @InjectChildView(value = R.id.btn_a_f, listener = View.OnClickListener.class)
     private Button mBtnAF;
@@ -36,10 +41,25 @@ public class CommonFrameFragment extends BaseFragment {
     @InjectChildView(value = R.id.btn_init, listener = View.OnClickListener.class)
     private Button mBtnInit;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.common_frame_fragment, container, false);
+        setOnClickListener(view);
+        return view;
+    }
+
+    private void setOnClickListener(View view) {
+        view.findViewById(R.id.btn_a_f).setOnClickListener(this);
+        view.findViewById(R.id.btn_jie_gu).setOnClickListener(this);
+        view.findViewById(R.id.btn_dl_skin).setOnClickListener(this);
+        view.findViewById(R.id.btn_dl_load).setOnClickListener(this);
+        view.findViewById(R.id.btn_init).setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_a_f:
                 ToastUtil.showToast(getActivity(), "This is one Activity + more Fragments framework!");
                 break;

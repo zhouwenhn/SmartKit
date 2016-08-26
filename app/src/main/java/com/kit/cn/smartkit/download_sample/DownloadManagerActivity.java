@@ -1,6 +1,13 @@
 package com.kit.cn.smartkit.download_sample;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.view.View;
@@ -9,15 +16,17 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kit.cn.library.download.download.DownloadInfo;
-import com.kit.cn.library.download.download.DownloadManager;
-import com.kit.cn.library.download.download.DownloadService;
-import com.kit.cn.library.download.listener.DownloadListener;
-import com.kit.cn.library.download.task.ExecutorWithListener;
+import com.kit.cn.downloadlib.download.download.DownloadInfo;
+import com.kit.cn.downloadlib.download.download.DownloadManager;
+import com.kit.cn.downloadlib.download.download.DownloadService;
+import com.kit.cn.downloadlib.download.listener.DownloadListener;
+import com.kit.cn.downloadlib.download.task.ExecutorWithListener;
+import com.kit.cn.library.utils.log.Logger;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.network_sample.Bean.ApkInfo;
 import com.kit.cn.smartkit.network_sample.ui.NumberProgressBar;
@@ -30,27 +39,44 @@ import java.util.List;
 
 public class DownloadManagerActivity extends AppCompatActivity implements View.OnClickListener, ExecutorWithListener.OnAllTaskEndListener {
 
-    private List<DownloadInfo> allTask;
-    private MyAdapter adapter;
-    private DownloadManager downloadManager;
+    private List<DownloadInfo> mAllTask;
+    private MyAdapter mAdapter;
+    private DownloadManager mDownloadManager;
+
+
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
+    private Intent mIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_manager);
 
-        downloadManager = DownloadService.getDownloadManager();
-        allTask = downloadManager.getAllTask();
+        mDownloadManager = DownloadService.getDownloadManager();
+        mAllTask = mDownloadManager.getAllTask();
         ListView listView = (ListView) findViewById(R.id.listView);
-        adapter = new MyAdapter();
-        listView.setAdapter(adapter);
+        mAdapter = new MyAdapter();
+        listView.setAdapter(mAdapter);
 
-        downloadManager.getThreadPool().getExecutor().addOnAllTaskEndListener(this);
+        mDownloadManager.getThreadPool().getExecutor().addOnAllTaskEndListener(this);
+
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(DownloadManagerActivity.this)
+                .setSmallIcon(R.mipmap.ic_launcher);
+
+        mBuilder.build().defaults =  Notification.DEFAULT_SOUND;
+
+        // 指定个性化视图
+//        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.download_notification_layout);
+//        contentView.setTextViewText(R.id.fileName, "AngryBird.apk");
+//        mBuilder.build().contentView = contentView;
     }
 
     @Override
     public void onAllTaskEnd() {
-        for (DownloadInfo downloadInfo : allTask) {
+        for (DownloadInfo downloadInfo : mAllTask) {
             if (downloadInfo.getState() != DownloadManager.FINISH) {
                 Toast.makeText(DownloadManagerActivity.this, "所有下载线程结束，部分下载未完成", Toast.LENGTH_SHORT).show();
                 return;
@@ -63,42 +89,42 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
     protected void onDestroy() {
         super.onDestroy();
         //记得移除，否者会回调多次
-        downloadManager.getThreadPool().getExecutor().removeOnAllTaskEndListener(this);
+        mDownloadManager.getThreadPool().getExecutor().removeOnAllTaskEndListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.removeAll:
-                downloadManager.removeAllTask();
-                adapter.notifyDataSetChanged();  //移除的时候需要调用
+                mDownloadManager.removeAllTask();
+                mAdapter.notifyDataSetChanged();  //移除的时候需要调用
                 break;
             case R.id.pauseAll:
-                downloadManager.pauseAllTask();
+                mDownloadManager.pauseAllTask();
                 break;
             case R.id.stopAll:
-                downloadManager.stopAllTask();
+                mDownloadManager.stopAllTask();
                 break;
             case R.id.startAll:
-                downloadManager.startAllTask();
+                mDownloadManager.startAllTask();
                 break;
         }
     }
-
+    ApkInfo apk;
     private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return allTask.size();
+            return mAllTask.size();
         }
 
         @Override
         public DownloadInfo getItem(int position) {
-            return allTask.get(position);
+            return mAllTask.get(position);
         }
 
         @Override
@@ -120,7 +146,7 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
             holder.refresh(downloadInfo);
 
             //对于非进度更新的ui放在这里，对于实时更新的进度ui，放在holder中
-            ApkInfo apk = (ApkInfo) AppCacheUtils.getInstance(DownloadManagerActivity.this).getObject(downloadInfo.getUrl());
+            apk = (ApkInfo) AppCacheUtils.getInstance(DownloadManagerActivity.this).getObject(downloadInfo.getUrl());
             if (apk != null) {
                 Glide.with(DownloadManagerActivity.this).load(apk.getIconUrl()).error(R.mipmap.ic_launcher).into(holder.icon);
                 holder.name.setText(apk.getName());
@@ -204,15 +230,16 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
 
         @Override
         public void onClick(View v) {
+            mBuilder.setContentTitle(apk.getName());
             if (v.getId() == download.getId()) {
                 switch (downloadInfo.getState()) {
                     case DownloadManager.PAUSE:
                     case DownloadManager.NONE:
                     case DownloadManager.ERROR:
-                        downloadManager.addTask(downloadInfo.getUrl(), downloadInfo.getRequest(), downloadInfo.getListener());
+                        mDownloadManager.addTask(downloadInfo.getUrl(), downloadInfo.getRequest(), downloadInfo.getListener());
                         break;
                     case DownloadManager.DOWNLOADING:
-                        downloadManager.pauseTask(downloadInfo.getUrl());
+                        mDownloadManager.pauseTask(downloadInfo.getUrl());
                         break;
                     case DownloadManager.FINISH:
                         if (ApkUtils.isAvailable(DownloadManagerActivity.this, new File(downloadInfo.getTargetPath()))) {
@@ -224,10 +251,10 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
                 }
                 refresh();
             } else if (v.getId() == remove.getId()) {
-                downloadManager.removeTask(downloadInfo.getUrl());
-                adapter.notifyDataSetChanged();
+                mDownloadManager.removeTask(downloadInfo.getUrl());
+                mAdapter.notifyDataSetChanged();
             } else if (v.getId() == restart.getId()) {
-                downloadManager.restartTask(downloadInfo.getUrl());
+                mDownloadManager.restartTask(downloadInfo.getUrl());
             }
         }
     }
@@ -237,12 +264,41 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
         @Override
         public void onProgress(DownloadInfo downloadInfo) {
             if (getUserTag() == null) return;
+
+            Logger.e("onProgress>>>" + String.valueOf((int) (downloadInfo.getProgress() * 100)));
+            mBuilder.setContentText(String.valueOf((int) downloadInfo.getProgress() * 100)+"%");
+//            RemoteViews contentView = mBuilder.build().contentView;
+//            contentView.setTextViewText(R.id.rate, (int) (downloadInfo.getProgress() * 100) + "%");
+//            contentView.setProgressBar(R.id.progress, 100, (int) (downloadInfo.getProgress() * 100), false);
+            // state
+            mBuilder.setProgress(100, (int) (downloadInfo.getProgress() * 100), false);
+            // Displays the progress bar for the first time.
+            mNotificationManager.notify(110, mBuilder.build());
+
             ViewHolder holder = (ViewHolder) getUserTag();
             holder.refresh();  //这里不能使用传递进来的 DownloadInfo，否者会出现条目错乱的问题
         }
 
         @Override
         public void onFinish(DownloadInfo downloadInfo) {
+
+            mBuilder.setAutoCancel(true);
+
+            mIntent = new Intent(Intent.ACTION_VIEW);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mIntent.setDataAndType(Uri.parse("file://" + downloadInfo.getTargetPath()),"application/vnd.android.package-archive");
+            startActivity(mIntent);
+            PendingIntent pendingIntent = PendingIntent.getActivity(DownloadManagerActivity.this,100, mIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+            mBuilder.setContentIntent(pendingIntent);
+
+            Logger.e("downloadInfo>>>"+downloadInfo.getFileName());
+            mBuilder.setContentTitle(downloadInfo.getFileName());
+            mBuilder.setContentText("Download complete")
+                    // Removes the progress bar
+                    .setProgress(0,0,false);
+            mNotificationManager.notify(110, mBuilder.build());
+
             Toast.makeText(DownloadManagerActivity.this, "下载完成:" + downloadInfo.getTargetPath(), Toast.LENGTH_SHORT).show();
         }
 

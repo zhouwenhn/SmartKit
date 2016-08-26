@@ -2,7 +2,10 @@ package com.kit.cn.smartkit.message_sample;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.kit.cn.library.ioc.annotations.field.InjectChildView;
@@ -17,12 +20,19 @@ import static com.kit.cn.library.message.Message.Type.MSG_EXAMPLE_TEST;
  * Created by zhouwen on 16/7/23.
  */
 
-@InjectContentView(value = R.layout.message_fragment)
+//@InjectContentView(value = R.layout.message_fragment)
 public class MessageFragment extends BaseFragment {
 
-    @InjectChildView(value = R.id.btn_send_mes, listener = View.OnClickListener.class)
-    private Button mBtn;
+//    @InjectChildView(value = R.id.btn_send_mes, listener = View.OnClickListener.class)
+//    private Button mBtn;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.message_fragment, container, false);
+        view.findViewById(R.id.btn_send_mes).setOnClickListener(this);
+        return view;
+    }
 
     @Override
     public void onClick(View v) {

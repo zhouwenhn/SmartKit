@@ -9,6 +9,8 @@ public abstract class AbsCache<K, V> {
 
     public abstract V getCache(K k);
 
+    public abstract V getCache(K k, int type);
+
     public abstract void addCache(K k, V v);
 
     public abstract void remove(K k);

@@ -24,19 +24,21 @@ import java.util.List;
  * Created by zhouwen on 16/8/12.
  */
 
-@InjectContentView(value = R.layout.fragment_db)
+//@InjectContentView(value = R.layout.fragment_db)
 public class ORMFragment extends BaseFragment {
 
     private List<OrmInfo> mList = new ArrayList<>();
 
-    @InjectChildView(value = R.id.insert, listener = View.OnClickListener.class)
-    private Button mBtn;
+//    @InjectChildView(value = R.id.insert, listener = View.OnClickListener.class)
+//    private Button mBtn;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_db, container, false);
+        view.findViewById(R.id.insert).setOnClickListener(this);
         initData("zhouwen", "female", "alibaba");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     private void initData(String name, String sex, String company) {

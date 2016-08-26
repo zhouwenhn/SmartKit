@@ -47,7 +47,8 @@ public abstract class LiteBaseAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderHelper viewHolderHelper = ViewHolderHelper.getViewHolder(mContext, position, mItemRes, convertView, parent);
+        ViewHolderHelper viewHolderHelper = ViewHolderHelper.getViewHolder(
+                mContext, position, mItemRes, convertView, parent);
         buildItemView(viewHolderHelper, getItem(position), position);
         return viewHolderHelper.getConvertView();
     }

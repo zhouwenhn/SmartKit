@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,8 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kit.cn.library.download.download.DownloadManager;
-import com.kit.cn.library.download.download.DownloadService;
+import com.kit.cn.downloadlib.download.download.DownloadManager;
+import com.kit.cn.downloadlib.download.download.DownloadService;
+import com.kit.cn.library.adapter.LiteBaseAdapter;
+import com.kit.cn.library.adapter.ViewHolderHelper;
 import com.kit.cn.library.network.OkHttpTask;
 import com.kit.cn.library.network.request.GetRequest;
 import com.kit.cn.smartkit.R;
@@ -30,8 +31,9 @@ import java.util.ArrayList;
 public class DownloadFragment extends BaseFragment {
 
     private ArrayList<ApkInfo> apks;
-    private MyAdapter adapter;
     private DownloadManager downloadManager;
+
+    private LiteBaseAdapter liteBaseAdapter;
 
     @Nullable
     @Override
@@ -64,8 +66,47 @@ public class DownloadFragment extends BaseFragment {
         sbCorePoolSize.setProgress(3);
 
         ListView listView = (ListView) view.findViewById(R.id.listView);
-        adapter = new MyAdapter();
-        listView.setAdapter(adapter);
+        liteBaseAdapter = new LiteBaseAdapter<ApkInfo>(
+                getContext(), apks, R.layout.item_download_details) {
+            @Override
+            protected void buildItemView(ViewHolderHelper viewHolder, ApkInfo item, int position) {
+                final ApkInfo apk = getItem(position);
+
+                TextView name = (TextView) viewHolder.getItemView(R.id.name);
+                ImageView icon = (ImageView) viewHolder.getItemView(R.id.icon);
+                final Button download = (Button) viewHolder.getItemView(R.id.download);
+                if (downloadManager.getDownloadInfo(apk.getUrl()) != null) {
+                    download.setText("已在队列");
+                    download.setEnabled(false);
+                } else {
+                    download.setText("下载");
+                    download.setEnabled(true);
+                }
+                name.setText(apk.getName());
+                Glide.with(getContext()).load(apk.getIconUrl()).error(R.mipmap.ic_launcher).into(icon);
+                download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (downloadManager.getDownloadInfo(apk.getUrl()) != null) {
+                            Toast.makeText(getContext(), "任务已经在下载列表中", Toast.LENGTH_SHORT).show();
+                        } else {
+                            GetRequest request = OkHttpTask.get(apk.getUrl())//
+                                    .headers("headerKey1", "headerValue1")//
+                                    .headers("headerKey2", "headerValue2")//
+                                    .params("paramKey1", "paramValue1")//
+                                    .params("paramKey2", "paramValue2");
+                            downloadManager.addTask(apk.getUrl(), request, null);
+                            AppCacheUtils.getInstance(getContext()).put(apk.getUrl(), apk);
+                            download.setText("已在队列");
+                            download.setEnabled(false);
+                        }
+                    }
+                });
+            }
+
+        };
+        listView.setAdapter(liteBaseAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,7 +130,7 @@ public class DownloadFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) adapter.notifyDataSetChanged();
+        if (isVisibleToUser) liteBaseAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -98,63 +139,7 @@ public class DownloadFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
-    }
-
-    private class MyAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return apks.size();
-        }
-
-        @Override
-        public ApkInfo getItem(int position) {
-            return apks.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = View.inflate(getContext(), R.layout.item_download_details, null);
-            }
-            final ApkInfo apk = getItem(position);
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-            final Button download = (Button) convertView.findViewById(R.id.download);
-            if (downloadManager.getDownloadInfo(apk.getUrl()) != null) {
-                download.setText("已在队列");
-                download.setEnabled(false);
-            } else {
-                download.setText("下载");
-                download.setEnabled(true);
-            }
-            name.setText(apk.getName());
-            Glide.with(getContext()).load(apk.getIconUrl()).error(R.mipmap.ic_launcher).into(icon);
-            download.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (downloadManager.getDownloadInfo(apk.getUrl()) != null) {
-                        Toast.makeText(getContext(), "任务已经在下载列表中", Toast.LENGTH_SHORT).show();
-                    } else {
-                        GetRequest request = OkHttpTask.get(apk.getUrl())//
-                                .headers("headerKey1", "headerValue1")//
-                                .headers("headerKey2", "headerValue2")//
-                                .params("paramKey1", "paramValue1")//
-                                .params("paramKey2", "paramValue2");
-                        downloadManager.addTask(apk.getUrl(), request, null);
-                        AppCacheUtils.getInstance(getContext()).put(apk.getUrl(), apk);
-                        download.setText("已在队列");
-                        download.setEnabled(false);
-                    }
-                }
-            });
-            return convertView;
-        }
+        liteBaseAdapter.notifyDataSetChanged();
     }
 
     private void initData() {

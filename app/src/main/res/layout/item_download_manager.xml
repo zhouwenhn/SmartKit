@@ -80,30 +80,34 @@
     <Button
         android:id="@+id/start"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#E30"
         android:padding="5dp"
+        android:background="@android:color/white"
+
         android:text="下载"
-        android:textColor="#FFF"/>
+        android:textColor="@android:color/black"/>
 
     <Button
         android:id="@+id/remove"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#3E0"
         android:padding="5dp"
+        android:layout_marginLeft="5dp"
         android:text="删除"
-        android:textColor="#FFF"/>
+        android:background="@android:color/white"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:id="@+id/restart"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#03E"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:padding="5dp"
         android:text="重新\n下载"
-        android:textColor="#FFF"/>
+        android:background="@android:color/white"
+        android:textColor="@android:color/black"/>
 </LinearLayout>

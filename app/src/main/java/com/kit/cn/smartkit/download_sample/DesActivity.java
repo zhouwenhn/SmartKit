@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kit.cn.library.download.download.DownloadInfo;
-import com.kit.cn.library.download.download.DownloadManager;
-import com.kit.cn.library.download.download.DownloadService;
-import com.kit.cn.library.download.listener.DownloadListener;
+import com.kit.cn.downloadlib.download.download.DownloadInfo;
+import com.kit.cn.downloadlib.download.download.DownloadManager;
+import com.kit.cn.downloadlib.download.download.DownloadService;
+import com.kit.cn.downloadlib.download.listener.DownloadListener;
 import com.kit.cn.library.network.OkHttpTask;
 import com.kit.cn.library.network.request.GetRequest;
 import com.kit.cn.smartkit.R;

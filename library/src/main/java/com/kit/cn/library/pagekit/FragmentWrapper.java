@@ -63,6 +63,15 @@ public abstract class FragmentWrapper extends Fragment implements INewIntentAble
     }
 
     /**
+     * openPage a new Fragment for result
+     *
+     * @param fragment fragment
+     */
+    public void openPageForResult(@NonNull FragmentWrapper fragment, int requestCode, int respCode) {
+        // TODO: 16/8/21实现打开另一个带返回值的界面
+    }
+
+    /**
      * Jump to the specified fragment and do not hide the current page.
      *
      * @param to To jump to the page

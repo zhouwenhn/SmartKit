@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.kit.cn.library.pagekit.FragmentWrapper;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.network_sample.activity.BitmapRequestActivity;
 import com.kit.cn.smartkit.network_sample.activity.CacheActivity;
@@ -32,7 +33,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OkhttpFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class OkhttpFragment extends FragmentWrapper implements AdapterView.OnItemClickListener {
 
     @Nullable
     @Override

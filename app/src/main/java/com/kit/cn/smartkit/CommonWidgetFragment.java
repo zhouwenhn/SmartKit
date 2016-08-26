@@ -1,6 +1,10 @@
 package com.kit.cn.smartkit;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -12,24 +16,39 @@ import com.kit.cn.smartkit.base.BaseFragment;
  * Created by zhouwen on 16/7/23.
  */
 
-@InjectContentView(value = R.layout.common_widget_fragment)
+//@InjectContentView(value = R.layout.common_widget_fragment)
 public class CommonWidgetFragment extends BaseFragment {
 
-    @InjectChildView(value = R.id.btn_dialog, listener = View.OnClickListener.class)
-    private Button mBtnDialog;
+//    @InjectChildView(value = R.id.btn_dialog, listener = View.OnClickListener.class)
+//    private Button mBtnDialog;
+//
+//    @InjectChildView(value = R.id.btn_toast, listener = View.OnClickListener.class)
+//    private Button mBtnToast;
+//
+//    @InjectChildView(value = R.id.btn_adapter, listener = View.OnClickListener.class)
+//    private Button mBtnAdapter;
+//
+//    @InjectChildView(value = R.id.btn_loading, listener = View.OnClickListener.class)
+//    private Button mBtnLoading;
+//
+//    @InjectChildView(value = R.id.btn_ui, listener = View.OnClickListener.class)
+//    private Button mBtnUi;
 
-    @InjectChildView(value = R.id.btn_toast, listener = View.OnClickListener.class)
-    private Button mBtnToast;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.common_widget_fragment, container, false);
+        setOnClickListener(view);
+        return view;
+    }
 
-    @InjectChildView(value = R.id.btn_adapter, listener = View.OnClickListener.class)
-    private Button mBtnAdapter;
-
-    @InjectChildView(value = R.id.btn_loading, listener = View.OnClickListener.class)
-    private Button mBtnLoading;
-
-    @InjectChildView(value = R.id.btn_ui, listener = View.OnClickListener.class)
-    private Button mBtnUi;
-
+    private void setOnClickListener(View view) {
+        view.findViewById(R.id.btn_dialog).setOnClickListener(this);
+        view.findViewById(R.id.btn_toast).setOnClickListener(this);
+        view.findViewById(R.id.btn_adapter).setOnClickListener(this);
+        view.findViewById(R.id.btn_loading).setOnClickListener(this);
+        view.findViewById(R.id.btn_ui).setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
