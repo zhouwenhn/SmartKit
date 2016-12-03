@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="imagepicker-0.3.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.lzy.widget/imagepicker/0.3.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.lzy.widget/imagepicker/0.3.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lzy.widget/imagepicker/0.3.2/ef78c273368067a7e881bcdcb2274ba61555af39/imagepicker-0.3.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
