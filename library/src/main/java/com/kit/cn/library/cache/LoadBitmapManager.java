@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import com.kit.cn.library.cache.biz.FileCacheLoader;
 import com.kit.cn.library.cache.biz.MemoryCacheLoader;
 import com.kit.cn.library.utils.BitmapUtils;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 
 /**
@@ -77,7 +77,7 @@ public class LoadBitmapManager implements ICacheAble<String, Bitmap> {
         if (value == null) {
             value = (Bitmap) FileCacheLoader.getInstance().getCache(key, ValueType.BITMAP.getValue());
             if (value != null) {
-                Logger.d("cache>>>>getCache from file cache>>");
+                L.d("cache>>>>getCache from file cache>>");
                 MemoryCacheLoader.getInstance().addCache(key, value);
             } else {
                 value = loadFromNetwork(key);
@@ -87,7 +87,7 @@ public class LoadBitmapManager implements ICacheAble<String, Bitmap> {
                 }
             }
         } else {
-            Logger.d("cache>>>>getCache from memory cache>>");
+            L.d("cache>>>>getCache from memory cache>>");
         }
         return value;
     }

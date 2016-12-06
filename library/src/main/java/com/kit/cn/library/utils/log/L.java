@@ -10,7 +10,7 @@ import android.util.Log;
  * @version 1.0
  * @since 2016/6/21 11:24
  */
-public class Logger {
+public class L {
 
     public static boolean DEBUG = true;
 

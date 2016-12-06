@@ -9,7 +9,7 @@ import com.kit.cn.library.db.ORM.extra.AutoIncrementTableColumn;
 import com.kit.cn.library.db.ORM.extra.Extra;
 import com.kit.cn.library.db.ORM.extra.TableColumn;
 import com.kit.cn.library.db.ORM.extra.TableInfo;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 /**
  * @author zhouwen
@@ -49,7 +49,7 @@ public class SqlUtils {
 
         // 自动增加的主键，只有id一个
         if (primaryKey instanceof AutoIncrementTableColumn) {
-            Logger.d(TAG, "getTableSql#AutoIncrementTableColumn");
+            L.d(TAG, "getTableSql#AutoIncrementTableColumn");
         } else {
             strSQL.append(", PRIMARY KEY ( ").append(primaryKey.getColumn()).append(" , ")
                     .append(FieldUtils.KEY).append(" , ")
@@ -58,7 +58,7 @@ public class SqlUtils {
         strSQL.append(" )");
 
         String tableStr = strSQL.toString();
-        Logger.d(TAG, "create table = " + tableStr);
+        L.d(TAG, "create table = " + tableStr);
         return tableStr;
     }
 
@@ -66,7 +66,7 @@ public class SqlUtils {
         List<TableColumn> columns = new ArrayList<TableColumn>();
         // 如果是自增主键，不设置值
         if (tableInfo.getPrimaryKey() instanceof AutoIncrementTableColumn) {
-            Logger.d(TAG, "createSqlInsert#AutoIncrementTableColumn");
+            L.d(TAG, "createSqlInsert#AutoIncrementTableColumn");
         } else {
             columns.add(tableInfo.getPrimaryKey());
         }

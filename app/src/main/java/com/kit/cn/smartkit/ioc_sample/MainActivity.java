@@ -1,7 +1,6 @@
 package com.kit.cn.smartkit.ioc_sample;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,7 +11,7 @@ import android.util.SparseArray;
 
 import com.kit.cn.library.ioc.annotations.field.InjectChildView;
 import com.kit.cn.library.ioc.annotations.field.InjectContentView;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 import com.kit.cn.smartkit.BaseComponentFragment;
 import com.kit.cn.smartkit.BizComponentFragment;
 import com.kit.cn.smartkit.CommonFrameFragment;
@@ -44,7 +43,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.d("chowen>>>>");
+        L.d("chowen>>>>");
         initFragments();
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

@@ -13,7 +13,7 @@ import com.kit.cn.library.db.ORM.extra.TableColumn;
 import com.kit.cn.library.db.ORM.extra.TableInfo;
 import com.kit.cn.library.db.ORM.utils.SqlUtils;
 import com.kit.cn.library.db.ORM.utils.TableInfoUtils;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -170,7 +170,7 @@ public class LightORM {
         } finally {
             cursor.close();
         }
-        Logger.d(TAG + " 查询到数据 %d 条", list.size());
+        L.d(TAG + " 查询到数据 %d 条", list.size());
 
         return list;
     }
@@ -194,7 +194,7 @@ public class LightORM {
             if (entities != null && entities.length > 0)
                 insert(extra, Arrays.asList(entities));
             else
-                Logger.d(TAG+" method[insert(Extra extra, T... entities)], entities is null or empty");
+                L.d(TAG+" method[insert(Extra extra, T... entities)], entities is null or empty");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -218,7 +218,7 @@ public class LightORM {
             if (entities != null && entities.length > 0)
                 insert(extra, Arrays.asList(entities), "INSERT OR REPLACE INTO ");
             else
-                Logger.d(TAG+" method[insertOrReplace(Extra extra, T... entities)], entities is null or empty");
+                L.d(TAG+" method[insertOrReplace(Extra extra, T... entities)], entities is null or empty");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -250,7 +250,7 @@ public class LightORM {
 
     private <T> void insert(Extra extra, List<T> entityList, String insertInto) {
         if (entityList == null || entityList.size() == 0) {
-            Logger.d(TAG+ " method[insert(Extra extra, List<T> entityList)], entityList is null or empty");
+            L.d(TAG+ " method[insert(Extra extra, List<T> entityList)], entityList is null or empty");
             return;
         }
 
@@ -259,7 +259,7 @@ public class LightORM {
         try {
             String sql = SqlUtils.createSqlInsert(insertInto, tableInfo);
 
-            Logger.v(TAG + insertInto + " sql = %s", sql);
+            L.v(TAG + insertInto + " sql = %s", sql);
 
             SQLiteStatement insertStatement = db.compileStatement(sql);
             for (T entity : entityList) {
@@ -285,7 +285,7 @@ public class LightORM {
             if (entities != null && entities.length > 0)
                 insertOrReplace(extra, entities);
             else
-                Logger.d(TAG+ " method[update(Extra extra, T... entities)], entities is null or empty");
+                L.d(TAG+ " method[update(Extra extra, T... entities)], entities is null or empty");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,7 +300,7 @@ public class LightORM {
             if (entityList != null && entityList.size() > 0)
                 insertOrReplace(extra, entityList);
             else
-                Logger.d(TAG, "method[update(Extra extra, T... entities)], entities is null or empty");
+                L.d(TAG, "method[update(Extra extra, T... entities)], entities is null or empty");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -359,7 +359,7 @@ public class LightORM {
 
     public int updateById(Class<?> clazz, ContentValues values, Extra extra, Object id) {
         if (values == null) {
-            Logger.d(TAG+ " method[myUpdateById(Extra extra, T entity)], entity is null or empty");
+            L.d(TAG+ " method[myUpdateById(Extra extra, T entity)], entity is null or empty");
             return 0;
         }
 
@@ -452,7 +452,7 @@ public class LightORM {
             long start = System.currentTimeMillis();
             int rowCount = db.delete(tableInfo.getTableName(), whereClause, whereArgs);
 
-            Logger.d(TAG + " 表 %s 删除数据 %d 条，耗时 %s ms", tableInfo.getTableName(), rowCount, String.valueOf(System.currentTimeMillis() - start));
+            L.d(TAG + " 表 %s 删除数据 %d 条，耗时 %s ms", tableInfo.getTableName(), rowCount, String.valueOf(System.currentTimeMillis() - start));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -506,7 +506,7 @@ public class LightORM {
                 return count;
             }
         } catch (Exception e) {
-            Logger.d("count exception");
+            L.d("count exception");
         }
         return 0;
     }
@@ -520,7 +520,7 @@ public class LightORM {
 
         // 如果是自增主键，不设置值
         if (tableInfo.getPrimaryKey() instanceof AutoIncrementTableColumn){
-            Logger.d("auto increment key");
+            L.d("auto increment key");
         } else {
             bindInsertValue(insertStatement, index++, tableInfo.getPrimaryKey(), entity);
         }
@@ -563,7 +563,7 @@ public class LightORM {
                 insertStatement.bindString(index, value.toString());
             }
         } catch (Exception e) {
-            Logger.w("属性 %s 绑定异常", column.getField().getName());
+            L.w("属性 %s 绑定异常", column.getField().getName());
         }
     }
 
@@ -627,7 +627,7 @@ public class LightORM {
                 cv.put(key, JSON.toJSONString(value));
             }
         } catch (Exception e) {
-            Logger.w("属性 %s 绑定异常", key);
+            L.w("属性 %s 绑定异常", key);
         }
     }
 
@@ -689,7 +689,7 @@ public class LightORM {
     private <T> TableInfo checkTable(Class<T> clazz) {
         TableInfo tableInfo = TableInfoUtils.exist(dbName, clazz);
         if (tableInfo != null) {
-            Logger.d(TAG+" 检查Entity字段是否有增加，有则更新表");
+            L.d(TAG+" 检查Entity字段是否有增加，有则更新表");
         } else {
             tableInfo = TableInfoUtils.newTable(dbName, db, clazz);
         }

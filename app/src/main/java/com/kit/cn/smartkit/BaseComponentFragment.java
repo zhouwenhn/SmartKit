@@ -11,7 +11,7 @@ import com.kit.cn.library.message.IMessageAble;
 import com.kit.cn.library.message.Message;
 import com.kit.cn.library.message.MessagePump;
 import com.kit.cn.library.pagekit.FragmentWrapper;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 import com.kit.cn.library.widget.toast.ToastUtil;
 import com.kit.cn.smartkit.cache_sample.CacheFragment;
 import com.kit.cn.smartkit.db_sample.ORMFragment;
@@ -60,7 +60,7 @@ public class BaseComponentFragment extends FragmentWrapper
         MessagePump.getInstance().register(MSG_EXAMPLE_TEST, this);
         View view = inflater.inflate(R.layout.base_component_fragment, container, false);
         setOnClickListener(view);
-        Logger.e("getFilesDir>>"+getContext().getFilesDir().getAbsolutePath());
+        L.e("getFilesDir>>"+getContext().getFilesDir().getAbsolutePath());
         return view;
     }
 
@@ -99,7 +99,7 @@ public class BaseComponentFragment extends FragmentWrapper
                 openPage(new CacheFragment());
                 break;
             case R.id.btn_log:
-                ToastUtil.showToast(getActivity(), "sample>>>Logger.d(\"see logcat!!\")");
+                ToastUtil.showToast(getActivity(), "sample>>>L.d(\"see logcat!!\")");
                 break;
             case R.id.btn_invoke:
                 ToastUtil.showToast(getActivity(), "the current pages is view inject");

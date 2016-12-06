@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.kit.cn.library.db.ORM.annotation.TableName;
 import com.kit.cn.library.db.ORM.extra.TableColumn;
 import com.kit.cn.library.db.ORM.extra.TableInfo;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +60,7 @@ public class TableInfoUtils {
                 int count = cursor.getInt(0);
                 if (count > 0) {
                     cursor.close();
-                    Logger.d(TAG, "表 %s 已存在", tableInfo.getTableName());
+                    L.d(TAG, "表 %s 已存在", tableInfo.getTableName());
 
                     cursor = db.rawQuery("PRAGMA table_info" + "(" + tableInfo.getTableName() + ")", null);
                     // table的所有字段名称
@@ -101,7 +101,7 @@ public class TableInfoUtils {
 
                     for (String newField : newFieldList) {
                         db.execSQL(String.format("ALTER TABLE %s ADD %s TEXT", tableInfo.getTableName(), newField));
-                        Logger.d(TAG, "表 %s 新增字段 %s", tableInfo.getTableName(), newField);
+                        L.d(TAG, "表 %s 新增字段 %s", tableInfo.getTableName(), newField);
                     }
 
                     return tableInfo;
@@ -111,11 +111,11 @@ public class TableInfoUtils {
             // 创建一张新的表
             String createSql = SqlUtils.getTableSql(tableInfo);
             db.execSQL(createSql);
-            Logger.d(TAG, "创建一张新表 %s", tableInfo.getTableName());
+            L.d(TAG, "创建一张新表 %s", tableInfo.getTableName());
         } catch (Exception e) {
             e.printStackTrace();
 
-            Logger.d(TAG, e.getMessage() + "");
+            L.d(TAG, e.getMessage() + "");
         } finally {
             if (cursor != null)
                 cursor.close();

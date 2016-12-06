@@ -1,7 +1,7 @@
 package com.kit.cn.library.utils.encryption.securyty;
 
 
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -158,7 +158,7 @@ public class SecurityUtil {
                 result += snNum[k];
             }
         } catch (Exception e) {
-            Logger.w(e.toString());
+            L.w(e.toString());
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class SecurityUtil {
             try {
                 tmp = Base64.decode(org);
             } catch (Exception e) {
-                Logger.w(CLASS_NAME, "getDecodeKey>>>" + e);
+                L.w(CLASS_NAME, "getDecodeKey>>>" + e);
             }
             int tmpint = bytes2int(tmp);
             ret[i] = tmpint;

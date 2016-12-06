@@ -1,6 +1,6 @@
 package com.kit.cn.library.cache.utils;
 
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 /**
  * @author zhouwen
@@ -17,7 +17,7 @@ public class CheckException {
      */
     public static void checkNPE(Object params) {
         if (params == null) {
-            Logger.e(TAG, "params can not null");
+            L.e(TAG, "params can not null");
             throw new NullPointerException("params is not be null");
         }
     }

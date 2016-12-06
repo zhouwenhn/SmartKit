@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.kit.cn.library.ioc.annotations.field.InjectChildView;
 import com.kit.cn.library.ioc.annotations.field.InjectContentView;
 import com.kit.cn.library.ioc.annotations.field.InjectString;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.base.BaseActivity;
 
@@ -30,7 +30,7 @@ public class MainActivity1 extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.d("chowen");
+        L.d("chowen");
     }
 
     @Override

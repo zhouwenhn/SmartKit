@@ -4,7 +4,7 @@ import com.kit.cn.library.db.ORM.annotation.AutoIncrementPrimaryKey;
 import com.kit.cn.library.db.ORM.annotation.FilterFields;
 import com.kit.cn.library.db.ORM.annotation.PrimaryKey;
 import com.kit.cn.library.db.ORM.utils.TableInfoUtils;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -43,9 +43,9 @@ public class TableInfo {
         if (primaryKey == null)
             throw new RuntimeException("类 " + clazz.getSimpleName() + " 没有设置主键，请使用标注主键");
 
-        Logger.v(TAG, String.format("类 %s 的主键是 %s", clazz.getSimpleName(), primaryKey.getColumn()));
+        L.v(TAG, String.format("类 %s 的主键是 %s", clazz.getSimpleName(), primaryKey.getColumn()));
         for (TableColumn column : columns) {
-            Logger.v(TAG, String.format("[column = %s, datatype = %s]", column.getColumn(), column.getDataType()));
+            L.v(TAG, String.format("[column = %s, datatype = %s]", column.getColumn(), column.getDataType()));
         }
     }
 

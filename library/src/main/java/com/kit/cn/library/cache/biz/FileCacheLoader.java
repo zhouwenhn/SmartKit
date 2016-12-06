@@ -12,7 +12,7 @@ import com.kit.cn.library.cache.config.CacheConfig;
 import com.kit.cn.library.cache.utils.CacheHelper;
 import com.kit.cn.library.cache.utils.CheckException;
 import com.kit.cn.library.cache.utils.FileNameGenerator;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -89,7 +89,7 @@ public class FileCacheLoader<V> extends AbsCache<String, V> implements IUpdateCa
     public V getCache(@NonNull String key, int valueType) {
         long startGetCache = System.currentTimeMillis();
         String path = sPathDir + File.separator + FileNameGenerator.generator(key);
-        Logger.d("cache>>>>getCache path>>" + path);
+        L.d("cache>>>>getCache path>>" + path);
         File file = new File(path);
 
         if (valueType == ValueType.BITMAP.getValue()) {
@@ -122,7 +122,7 @@ public class FileCacheLoader<V> extends AbsCache<String, V> implements IUpdateCa
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    Logger.d("cache>>>>get data from cache duration=" + (System.currentTimeMillis() - startGetCache) / 1000 + "s");
+                    L.d("cache>>>>get data from cache duration=" + (System.currentTimeMillis() - startGetCache) / 1000 + "s");
                     if (bs != null) {
                         try {
                             bs.close();
@@ -148,7 +148,7 @@ public class FileCacheLoader<V> extends AbsCache<String, V> implements IUpdateCa
         long startWriteTimeMillis = System.currentTimeMillis();
         File rootFile = new File(sPathDir);
         File file = new File(sPathDir + File.separator + FileNameGenerator.generator(key));
-        Logger.d("cache>>>>addCache path>>" + file.toString());
+        L.d("cache>>>>addCache path>>" + file.toString());
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             Log.e(FileCacheLoader.class.getSimpleName(), "sdcard is not exist");
             return;
@@ -175,7 +175,7 @@ public class FileCacheLoader<V> extends AbsCache<String, V> implements IUpdateCa
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Logger.d("cache>>>>write data to cache duration=" + (System.currentTimeMillis() - startWriteTimeMillis) / 1000 + "s");
+            L.d("cache>>>>write data to cache duration=" + (System.currentTimeMillis() - startWriteTimeMillis) / 1000 + "s");
             if (bos != null) {
                 try {
                     bos.close();
@@ -222,7 +222,7 @@ public class FileCacheLoader<V> extends AbsCache<String, V> implements IUpdateCa
     @Override
     public void remove(@NonNull String key) {
         File file = new File(sPathDir + File.separator + FileNameGenerator.generator(key));
-        Logger.d("cache>>>>remove path>>" + file.toString());
+        L.d("cache>>>>remove path>>" + file.toString());
         file.delete();
     }
 

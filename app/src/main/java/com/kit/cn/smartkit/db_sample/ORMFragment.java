@@ -5,15 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 import com.kit.cn.library.db.ORM.BuilderOrmInstance;
 import com.kit.cn.library.db.ORM.extra.Extra;
-import com.kit.cn.library.ioc.annotations.field.InjectChildView;
-import com.kit.cn.library.ioc.annotations.field.InjectContentView;
 import com.kit.cn.library.widget.toast.ToastUtil;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.base.BaseFragment;
 
@@ -73,7 +70,7 @@ public class ORMFragment extends BaseFragment {
                 // BuilderOrmInstance.getORMSQLite().delete(OrmInfo.class);
                 break;
             case R.id.query:
-                Logger.e("query>>>>" + BuilderOrmInstance.getORMSQLite(getActivity()).select(getExtra(), OrmInfo.class).toString());
+                L.e("query>>>>" + BuilderOrmInstance.getORMSQLite(getActivity()).select(getExtra(), OrmInfo.class).toString());
                 List<OrmInfo> lists = BuilderOrmInstance.getORMSQLite(getActivity()).select(getExtra(), OrmInfo.class);
                 if (lists != null) {
                     OrmInfo info = lists.get(0);

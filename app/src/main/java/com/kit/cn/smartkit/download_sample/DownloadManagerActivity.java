@@ -16,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,7 @@ import com.kit.cn.downloadlib.download.download.DownloadManager;
 import com.kit.cn.downloadlib.download.download.DownloadService;
 import com.kit.cn.downloadlib.download.listener.DownloadListener;
 import com.kit.cn.downloadlib.download.task.ExecutorWithListener;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.network_sample.Bean.ApkInfo;
 import com.kit.cn.smartkit.network_sample.ui.NumberProgressBar;
@@ -265,7 +264,7 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
         public void onProgress(DownloadInfo downloadInfo) {
             if (getUserTag() == null) return;
 
-            Logger.e("onProgress>>>" + String.valueOf((int) (downloadInfo.getProgress() * 100)));
+            L.e("onProgress>>>" + String.valueOf((int) (downloadInfo.getProgress() * 100)));
             mBuilder.setContentText(String.valueOf((int) downloadInfo.getProgress() * 100)+"%");
 //            RemoteViews contentView = mBuilder.build().contentView;
 //            contentView.setTextViewText(R.id.rate, (int) (downloadInfo.getProgress() * 100) + "%");
@@ -292,7 +291,7 @@ public class DownloadManagerActivity extends AppCompatActivity implements View.O
 
             mBuilder.setContentIntent(pendingIntent);
 
-            Logger.e("downloadInfo>>>"+downloadInfo.getFileName());
+            L.e("downloadInfo>>>"+downloadInfo.getFileName());
             mBuilder.setContentTitle(downloadInfo.getFileName());
             mBuilder.setContentText("Download complete")
                     // Removes the progress bar

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -186,7 +186,7 @@ public class ScreenShot {
                     Bitmap.Config.ARGB_8888);
 
             if (DEBUG) {
-                Logger.e("CropperActivity", "SnapShotbitmapwh=" + bmp.getWidth()
+                L.e("CropperActivity", "SnapShotbitmapwh=" + bmp.getWidth()
                         + "*" + bmp.getHeight());
             }
 

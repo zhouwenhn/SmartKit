@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 /**
  * @author zhouwen
@@ -70,7 +70,7 @@ public class SQLiteBuilder {
 
             try {
                 if (dbf.createNewFile()) {
-                    Logger.d(TAG, "新建一个库在sd卡, 库名 = %s, 路径 = %s", dbName, dbf.getAbsolutePath());
+                    L.d(TAG, "新建一个库在sd卡, 库名 = %s, 路径 = %s", dbName, dbf.getAbsolutePath());
                     db = SQLiteDatabase.openOrCreateDatabase(dbf, null);
                 }
             } catch (IOException e) {
@@ -80,7 +80,7 @@ public class SQLiteBuilder {
 
         if (db != null) {
             int dbVersion = db.getVersion();
-            Logger.d(TAG, "表 %s 的version = %d, newVersion = %d", dbName, dbVersion, version);
+            L.d(TAG, "表 %s 的version = %d, newVersion = %d", dbName, dbVersion, version);
 
             if (dbVersion < version) {
                 dropDb(db);
@@ -91,7 +91,7 @@ public class SQLiteBuilder {
                     db.setVersion(version);
                     db.setTransactionSuccessful();
                 } catch (Exception e) {
-                    Logger.w(TAG, "更新DB的版本信息异常");
+                    L.w(TAG, "更新DB的版本信息异常");
                 } finally {
                     db.endTransaction();
                 }
@@ -128,7 +128,7 @@ public class SQLiteBuilder {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 db.execSQL("DROP TABLE " + cursor.getString(0));
-                Logger.d(TAG, "删除表 = " + cursor.getString(0));
+                L.d(TAG, "删除表 = " + cursor.getString(0));
             }
         }
         if (cursor != null) {

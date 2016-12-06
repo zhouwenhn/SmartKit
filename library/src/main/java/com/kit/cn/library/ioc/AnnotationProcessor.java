@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.kit.cn.library.ioc.annotations.field.InjectChildView;
 import com.kit.cn.library.ioc.annotations.field.InjectContentView;
 import com.kit.cn.library.ioc.annotations.field.InjectString;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -73,7 +73,7 @@ public class AnnotationProcessor implements InjectAble, InjectStrAble {
                 method.setAccessible(true);
                 method.invoke(obj, contentId);
             } catch (Exception e) {
-                Logger.e("Exception>>invokeContentView>>" + obj.getClass().getSimpleName() + e);
+                L.e("Exception>>invokeContentView>>" + obj.getClass().getSimpleName() + e);
             }
         }
     }
@@ -184,7 +184,7 @@ public class AnnotationProcessor implements InjectAble, InjectStrAble {
                     field.setAccessible(true);
                     field.set(obj, object);
                 } catch (Exception e) {
-                    Logger.e("Exception>>invokeChildViews>>" + obj.getClass().getSimpleName() + e);
+                    L.e("Exception>>invokeChildViews>>" + obj.getClass().getSimpleName() + e);
                 }
 
                 if (viewAnnotation.listener().length > 0) {
@@ -219,7 +219,7 @@ public class AnnotationProcessor implements InjectAble, InjectStrAble {
                     field.setAccessible(true);
                     field.set(obj, object);
                 } catch (Exception e) {
-                    Logger.e("Exception>>invokeChildViews>>" + obj.getClass().getSimpleName() + e);
+                    L.e("Exception>>invokeChildViews>>" + obj.getClass().getSimpleName() + e);
                 }
                 if (viewAnnotation.listener().length > 0) {
                     invokeViewListener(cls, viewAnnotation, viewFinder.findViewById(viewId), obj);

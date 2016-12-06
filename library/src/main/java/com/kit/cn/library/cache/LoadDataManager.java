@@ -1,23 +1,17 @@
 package com.kit.cn.library.cache;
 
 
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 
 import com.kit.cn.library.cache.biz.FileCacheLoader;
 import com.kit.cn.library.cache.biz.MemoryCacheLoader;
-import com.kit.cn.library.utils.log.Logger;
+import com.kit.cn.library.utils.log.L;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 
 /**
@@ -124,7 +118,7 @@ public class LoadDataManager implements ICacheAble<String, String> {
         if (value == null) {
             value = (String) FileCacheLoader.getInstance().getCache(key, ValueType.STRING.getValue());
             if (value != null) {
-                Logger.d("cache>>>>getCache from file cache>>");
+                L.d("cache>>>>getCache from file cache>>");
                 MemoryCacheLoader.getInstance().addCache(key, value);
             } else {
                 value = loadFromNetwork(key);
@@ -134,7 +128,7 @@ public class LoadDataManager implements ICacheAble<String, String> {
                 }
             }
         } else {
-            Logger.d("cache>>>>getCache from memory cache>>");
+            L.d("cache>>>>getCache from memory cache>>");
         }
         return value;
     }
