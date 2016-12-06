@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kit.cn.library.message.IMessageAble;
-import com.kit.cn.library.message.Message;
-import com.kit.cn.library.message.MessagePump;
 import com.kit.cn.library.pagekit.FragmentWrapper;
 import com.kit.cn.library.utils.log.L;
 import com.kit.cn.library.widget.toast.ToastUtil;
@@ -20,7 +17,6 @@ import com.kit.cn.smartkit.message_sample.MessageFragment;
 import com.kit.cn.smartkit.network_sample.activity.OkhttpMainActivity;
 import com.kit.cn.smartkit.utils_sample.UtilsFragment;
 
-import static com.kit.cn.library.message.Message.Type.MSG_EXAMPLE_TEST;
 
 /**
  * Created by zhouwen on 16/7/23.
@@ -28,7 +24,7 @@ import static com.kit.cn.library.message.Message.Type.MSG_EXAMPLE_TEST;
 
 //@InjectContentView(value = R.layout.base_component_fragment)
 public class BaseComponentFragment extends FragmentWrapper
-        implements IMessageAble, View.OnClickListener {
+        implements View.OnClickListener {
 
 //    @InjectChildView(value = R.id.btn_orm, listener = View.OnClickListener.class)
 //    private Button mBtnOrm;
@@ -57,7 +53,6 @@ public class BaseComponentFragment extends FragmentWrapper
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MessagePump.getInstance().register(MSG_EXAMPLE_TEST, this);
         View view = inflater.inflate(R.layout.base_component_fragment, container, false);
         setOnClickListener(view);
         L.e("getFilesDir>>"+getContext().getFilesDir().getAbsolutePath());
@@ -77,7 +72,6 @@ public class BaseComponentFragment extends FragmentWrapper
 
     @Override
     public void onDetach() {
-        MessagePump.getInstance().unregister(MSG_EXAMPLE_TEST, this);
         super.onDetach();
     }
 
@@ -113,12 +107,4 @@ public class BaseComponentFragment extends FragmentWrapper
         }
     }
 
-    @Override
-    public void onMessage(Message message) {
-        switch (message.type){
-            case MSG_EXAMPLE_TEST:
-                ToastUtil.showToast(getContext(), "收到发送消息>>来自消息界面<MessageFragment>");
-                break;
-        }
-    }
 }

@@ -6,15 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.kit.cn.library.ioc.annotations.field.InjectChildView;
-import com.kit.cn.library.ioc.annotations.field.InjectContentView;
-import com.kit.cn.library.message.MessagePump;
 import com.kit.cn.smartkit.R;
 import com.kit.cn.smartkit.base.BaseFragment;
 
-import static com.kit.cn.library.message.Message.Type.MSG_EXAMPLE_TEST;
 
 /**
  * Created by zhouwen on 16/7/23.
@@ -39,11 +34,7 @@ public class MessageFragment extends BaseFragment {
         switch (v.getId()){
             case R.id.btn_send_mes:
                 //1.未带数据
-                MessagePump.getInstance().broadcastMessage(MSG_EXAMPLE_TEST, null);
                 //2.带bundle数据，这里可以带任意类型的数据
-                Bundle bundle = new Bundle();
-                bundle.putString("key", "value");
-                MessagePump.getInstance().broadcastMessage(MSG_EXAMPLE_TEST, bundle);
                 break;
         }
     }
